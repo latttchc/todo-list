@@ -27,8 +27,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
 
     //　詳細データがない場合の処理を実装
     if (!todoContents) {
-        router.push('/todo-list');
-        return;
+        return <p>Loading...</p>;
     }
 
     //　詳細データを更新する処理を実装

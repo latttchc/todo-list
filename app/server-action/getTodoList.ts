@@ -37,7 +37,7 @@ const getTodoList = async (): Promise<{ todos: TodoDetailProps[] }> => {
 
     //　データがない場合は空の配列を出力
     if (!data) {
-        console.error('情報取得に失敗しました :', error);
+        console.error('情報取得に失敗しました :');
         return {
             todos: [] as TodoDetailProps[]
         };
