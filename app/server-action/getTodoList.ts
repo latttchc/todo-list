@@ -3,7 +3,6 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { revalidatePath } from "next/cache"
 import { cookies } from "next/headers"
 import { TodoDetailProps } from "../types"
-import { tree } from "next/dist/build/templates/app-page"
 
 // TodoListのデータ取得
 const getTodoList = async (): Promise<{ todos: TodoDetailProps[] }> => {

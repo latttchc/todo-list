@@ -4,12 +4,12 @@ import { Button, Card, CardActions, CardContent, Typography } from "@mui/materia
 import { useEffect, useState } from "react"
 import getTodoList from "../server-action/getTodoList"
 import { TodoDetailProps, TodoListProps } from "../types"
-import { todo } from "node:test"
 
 //　一覧表示のコンポーネントを実装
 const TodoList = () => {
     //　一覧データをuseStateで状態管理
     const [todoListContents, setTodoListContents] = useState<TodoDetailProps[]>();
+
     //　supabaseから一覧データを取得
     useEffect(() => {
         const fetchData = async () => {
@@ -21,8 +21,9 @@ const TodoList = () => {
 
     //　データがない場合の処理
     if (!todoListContents) {
-        return <p>データがありません.</p>
+        return <p>Loading....</p>
     }
+
 
     return (
         <>

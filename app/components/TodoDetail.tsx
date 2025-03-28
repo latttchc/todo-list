@@ -12,15 +12,15 @@ import getTodo from "../server-action/getTodo"
 const TodoDetail = ({ id }: TodoIdProps) => {
     const router = useRouter();
     //　データの状態管理
-    const [todoContents, settodoContents] = useState<TodoDetailProps>();
+    const [todoContents, setTodoContents] = useState<TodoDetailProps>();
     //　編集スイッチの状態管理
-    const [isEdit, setIsEdit] = useState<boolean>();
+    const [isEdit, setIsEdit] = useState<boolean>(false);
 
     //　詳細データの取得処理を実装
     useEffect(() => {
         const fetchData = async () => {
             const { todo } = await getTodo({ id: Number(id) });
-            settodoContents(todo);
+            setTodoContents(todo);
         }
         fetchData();
     }, [id, router])
@@ -28,7 +28,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
     //　詳細データがない場合の処理を実装
     if (!todoContents) {
         router.push('/todo-list');
-        return
+        return;
     }
 
     //　詳細データを更新する処理を実装
@@ -76,7 +76,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                     <Switch
                         checked={isEdit}
                         onChange={() => setIsEdit(!isEdit)}
-                        inputProps={{ "aria-label": 'controlled' }}
+                        inputProps={{ 'aria-label': 'controlled' }}
                     />
                 }
                 label="編集"
@@ -89,7 +89,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                         label="タイトル"
                         value={todoContents.title}
                         onChange={(e) => {
-                            settodoContents({
+                            setTodoContents({
                                 ...todoContents,
                                 title: e.target.value
                             })
@@ -102,7 +102,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                         label="説明"
                         value={todoContents.description}
                         onChange={(e) => {
-                            settodoContents({
+                            setTodoContents({
                                 ...todoContents,
                                 description: e.target.value
                             })

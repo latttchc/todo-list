@@ -31,7 +31,7 @@ const TodoCreate = () => {
         <form onSubmit={onSubmit}>
             <Box display='flex' sx={{ flexDirection: "column", gap: 2 }}>
                 <TextField type="text" label="タイトル" value={title} required onChange={(e) => setTitle(e.target.value)} />
-                <TextField type="text" label="説明" value={description} required onChange={(e) => setTitle(e.target.value)} />
+                <TextField type="text" label="説明" value={description} required onChange={(e) => setDescription(e.target.value)} />
 
                 <Box display="flex" justifyContent="center">
                     <Button type="submit" variant="contained" color="success" sx={{ px: 4, py: 1 }}>TODOを作成</Button>

@@ -36,6 +36,7 @@ const deleteTodo = async ({ id }: TodoIdProps): Promise<TodoResponseProps> => {
 
     //　表示データの更新
     revalidatePath(`/todo-list/${id}`);
+
     //　成功メッセージを返す
     return {
         message: '成功しました.'

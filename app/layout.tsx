@@ -17,8 +17,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   //　supabaseからユーザー設定を取得
-  const cookiesStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookiesStore });
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const { data: { session } } = await supabase.auth.getSession();
   const user = session?.user
   return (
