@@ -112,9 +112,9 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                     <Box>更新日:{todoContents.updated_at ? format(new Date(todoContents.updated_at), 'yyy/MM/dd') : '更新なし'}</Box>
 
                     <Box display="flex" justifyContent="center" sx={{ px: 4, py: 1 }}>
-                        <Button type="submit" variant="contained" disabled={isEdit} color="info">Todoを更新</Button>
+                        <Button type="submit" variant="contained" disabled={!isEdit} color="info">Todoを更新</Button>
                         <Button type="submit" variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>Todoを削除</Button>
-                        <Button href={`/todo-list`} variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>戻る</Button>
+                        <Button href={`/todo-list`} variant="outlined" color="inherit" sx={{ ml: 2 }}>戻る</Button>
                     </Box>
                 </Box>
             </form>
