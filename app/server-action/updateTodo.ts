@@ -31,7 +31,6 @@ const updateTodo = async ({ id, title, description }: TodoUpdateProps): Promise<
             user_id: user.id
         })
 
-
     //　エラーした場合の処理
     if (error) {
         console.error('情報の更新に失敗しました :', error);

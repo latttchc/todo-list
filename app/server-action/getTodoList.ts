@@ -45,6 +45,7 @@ const getTodoList = async (): Promise<{ todos: TodoDetailProps[] }> => {
 
     //　表示データを更新
     revalidatePath('/todo-list');
+
     return {
         todos: data
     };

@@ -7,7 +7,7 @@ import deleteTodo from "../server-action/deleteTodo"
 import updateTodo from "../server-action/updateTodo"
 import getTodo from "../server-action/getTodo"
 import { TodoDetailProps, TodoIdProps } from "../types"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 
 const TodoDetail = ({ id }: TodoIdProps) => {
     const router = useRouter();
@@ -23,24 +23,16 @@ const TodoDetail = ({ id }: TodoIdProps) => {
             setTodoContents(todo);
         }
         fetchData();
-    }, [id])
-
-    // データがない場合にリダイレクト
-    useEffect(() => {
-        if (todoContents === null) {
-            router.push('/todo-list');
-        }
-    }, [todoContents, router]);
+    }, [id, router])
 
 
     //　詳細データがない場合の処理を実装
     if (!todoContents) {
-        return <p>Loading....</p>;
+        return <p>Loading....</p>
     }
 
     //　詳細データを更新する処理を実装
     const onUpdateSubmit = async () => {
-        if (!todoContents) return;
         try {
             const { message } = await updateTodo({
                 id: todoContents.id,
@@ -50,7 +42,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
             //　成功メッセージ
             if (message) {
                 alert(message);
-                router.push('/todo-list');
+                redirect('todo-list');
             }
         } catch (error) {
             console.log('更新に失敗しました.');
@@ -59,7 +51,6 @@ const TodoDetail = ({ id }: TodoIdProps) => {
 
     //　詳細データを削除する処理を実装
     const onDeleteSubmit = async () => {
-        if (!todoContents) return;
         try {
             const confirmed: boolean = confirm('削除しますか?');
             //　削除する場合
@@ -70,7 +61,8 @@ const TodoDetail = ({ id }: TodoIdProps) => {
 
                 //　成功メッセージ
                 if (message) {
-                    router.push('/todo-list');
+                    alert(message);
+                    redirect('/todo-list')
                 }
             }
         } catch (error) {
@@ -97,7 +89,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                 }
                 label="編集"
             />
-            <form >
+            <form onSubmit={isEdit ? onUpdateSubmit : onDeleteSubmit}>
                 <Box display="flex" flexDirection="column" gap={2}>
                     <TextField
                         type="text"
@@ -129,8 +121,8 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                     <Box>更新日:{todoContents.updated_at ? format(new Date(todoContents.updated_at), 'yyy/MM/dd') : '更新なし'}</Box>
 
                     <Box display="flex" justifyContent="center" sx={{ px: 4, py: 1 }}>
-                        <Button type="button" onClick={onUpdateSubmit} variant="contained" disabled={!isEdit} color="info">Todoを更新</Button>
-                        <Button type="button" onClick={onDeleteSubmit} variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>Todoを削除</Button>
+                        <Button type="submit" variant="contained" disabled={!isEdit} color="info">Todoを更新</Button>
+                        <Button type="submit" variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>Todoを削除</Button>
                         <Button href={`/todo-list`} variant="outlined" color="inherit" sx={{ ml: 2 }}>戻る</Button>
                     </Box>
                 </Box>
