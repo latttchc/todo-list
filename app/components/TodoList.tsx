@@ -21,7 +21,7 @@ const TodoList = () => {
 
     //　データがない場合の処理
     if (!todoListContents) {
-        return <p>Loading....</p>
+        return <p>Loading...</p>
     }
 
 

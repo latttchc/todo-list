@@ -23,41 +23,58 @@ const TodoDetail = ({ id }: TodoIdProps) => {
             setTodoContents(todo);
         }
         fetchData();
-    }, [id, router])
+    }, [id])
+
+    // データがない場合にリダイレクト
+    useEffect(() => {
+        if (todoContents === null) {
+            router.push('/todo-list');
+        }
+    }, [todoContents, router]);
+
 
     //　詳細データがない場合の処理を実装
     if (!todoContents) {
-        return <p>Loading...</p>;
+        return <p>Loading....</p>;
     }
 
     //　詳細データを更新する処理を実装
-    const onUpdeteSubmit = async () => {
-        const { message } = await updateTodo({
-            id: todoContents.id,
-            title: todoContents.title,
-            description: todoContents.description
-        });
-        //　成功メッセージ
-        if (message) {
-            alert(message);
-            router.push('/todo-list');
+    const onUpdateSubmit = async () => {
+        if (!todoContents) return;
+        try {
+            const { message } = await updateTodo({
+                id: todoContents.id,
+                title: todoContents.title,
+                description: todoContents.description
+            });
+            //　成功メッセージ
+            if (message) {
+                alert(message);
+                router.push('/todo-list');
+            }
+        } catch (error) {
+            console.log('更新に失敗しました.');
         }
     }
 
     //　詳細データを削除する処理を実装
     const onDeleteSubmit = async () => {
-        const confirmed: boolean = confirm('削除しますか?');
+        if (!todoContents) return;
+        try {
+            const confirmed: boolean = confirm('削除しますか?');
+            //　削除する場合
+            if (confirmed) {
+                const { message } = await deleteTodo({
+                    id: todoContents.id
+                });
 
-        //　削除する場合
-        if (confirmed) {
-            const { message } = await deleteTodo({
-                id: todoContents.id
-            });
-
-            //　成功メッセージ
-            if (message) {
-                router.push('/todo-list');
+                //　成功メッセージ
+                if (message) {
+                    router.push('/todo-list');
+                }
             }
+        } catch (error) {
+            console.log('削除に失敗しました.');
         }
     }
 
@@ -80,7 +97,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                 }
                 label="編集"
             />
-            <form onSubmit={isEdit ? onUpdeteSubmit : onDeleteSubmit}>
+            <form >
                 <Box display="flex" flexDirection="column" gap={2}>
                     <TextField
                         type="text"
@@ -112,8 +129,8 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                     <Box>更新日:{todoContents.updated_at ? format(new Date(todoContents.updated_at), 'yyy/MM/dd') : '更新なし'}</Box>
 
                     <Box display="flex" justifyContent="center" sx={{ px: 4, py: 1 }}>
-                        <Button type="submit" variant="contained" disabled={!isEdit} color="info">Todoを更新</Button>
-                        <Button type="submit" variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>Todoを削除</Button>
+                        <Button type="button" onClick={onUpdateSubmit} variant="contained" disabled={!isEdit} color="info">Todoを更新</Button>
+                        <Button type="button" onClick={onDeleteSubmit} variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>Todoを削除</Button>
                         <Button href={`/todo-list`} variant="outlined" color="inherit" sx={{ ml: 2 }}>戻る</Button>
                     </Box>
                 </Box>

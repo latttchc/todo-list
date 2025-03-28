@@ -40,7 +40,7 @@ const deleteTodo = async ({ id }: TodoIdProps): Promise<TodoResponseProps> => {
     //　成功メッセージを返す
     return {
         message: '成功しました.'
-    }
+    };
 }
 
 export default deleteTodo
