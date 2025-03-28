@@ -1,6 +1,7 @@
+import TodoList from "../components/TodoList"
 const TodoListPage = () => {
     return (
-        <div>TodoListPage</div>
+        <TodoList />
     )
 }
 
