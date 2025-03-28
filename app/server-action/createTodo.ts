@@ -32,7 +32,7 @@ export const createTodo = async ({ title, description }: TodoCreateProps): Promi
 
     // エラー処理
     if (error) {
-        console.log('データ挿入に失敗しました', error);
+        console.error('データ挿入に失敗しました', error);
         return {} as TodoResponseProps;
     }
 
