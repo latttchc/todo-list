@@ -8,7 +8,7 @@ export type TodoDetailProps = {
     updated_at: string | null
 }
 
-export type TodoList = Pick<TodoDetailProps, 'id' | 'title' | 'description'>
+export type TodoListProps = Pick<TodoDetailProps, 'id' | 'title' | 'description'>
 
 export type TodoIdProps = Pick<TodoDetailProps, 'id'>
 
