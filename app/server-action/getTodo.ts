@@ -53,3 +53,5 @@ const getTodo = async ({ id }: TodoIdProps): Promise<{ todo: TodoDetailProps }> 
         todo: data[0] as TodoDetailProps
     }
 }
+
+export default getTodo
