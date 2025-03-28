@@ -7,128 +7,113 @@ import deleteTodo from "../server-action/deleteTodo"
 import updateTodo from "../server-action/updateTodo"
 import getTodo from "../server-action/getTodo"
 import { TodoDetailProps, TodoIdProps } from "../types"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 const TodoDetail = ({ id }: TodoIdProps) => {
     const router = useRouter();
-    //　データの状態管理
-    const [todoContents, setTodoContents] = useState<TodoDetailProps>();
-    //　編集スイッチの状態管理
+    const [todoContents, setTodoContents] = useState<TodoDetailProps | null>(null);
     const [isEdit, setIsEdit] = useState<boolean>(false);
 
-    //　詳細データの取得処理を実装
     useEffect(() => {
         const fetchData = async () => {
             const { todo } = await getTodo({ id: Number(id) });
             setTodoContents(todo);
-        }
+        };
         fetchData();
-    }, [id, router])
+    }, [id]);
 
-
-    //　詳細データがない場合の処理を実装
     if (!todoContents) {
-        return <p>Loading....</p>
+        return <p>Loading...</p>;
     }
 
-    //　詳細データを更新する処理を実装
-    const onUpdateSubmit = async () => {
+    const handleUpdate = async () => {
+        if (!todoContents) return;
+
         try {
             const { message } = await updateTodo({
                 id: todoContents.id,
                 title: todoContents.title,
                 description: todoContents.description
             });
-            //　成功メッセージ
+
             if (message) {
                 alert(message);
-                redirect('todo-list');
+                router.push('/todo-list');
             }
         } catch (error) {
-            console.log('更新に失敗しました.');
+            console.error('更新に失敗しました.');
         }
-    }
+    };
 
-    //　詳細データを削除する処理を実装
-    const onDeleteSubmit = async () => {
+    const handleDelete = async () => {
+        if (!todoContents) return;
+
         try {
-            const confirmed: boolean = confirm('削除しますか?');
-            //　削除する場合
+            const confirmed = confirm('削除しますか?');
             if (confirmed) {
-                const { message } = await deleteTodo({
-                    id: todoContents.id
-                });
+                const { message } = await deleteTodo({ id: todoContents.id });
 
-                //　成功メッセージ
                 if (message) {
                     alert(message);
-                    redirect('/todo-list')
+                    router.push('/todo-list');
                 }
             }
         } catch (error) {
-            console.log('削除に失敗しました.');
+            console.error('削除に失敗しました.');
         }
-    }
-
-    //　idがない場合の処理
-    if (!id) {
-        return <div>IDが指定されてません.</div>
-    }
+    };
 
     return (
         <>
-            {/* 詳細画面の表示部分を実装 */}
             <FormControlLabel
                 sx={{ m: 2 }}
                 control={
                     <Switch
                         checked={isEdit}
-                        onChange={() => setIsEdit(!isEdit)}
+                        onChange={() => setIsEdit(prev => !prev)}
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
                 }
                 label="編集"
             />
-            <form onSubmit={isEdit ? onUpdateSubmit : onDeleteSubmit}>
-                <Box display="flex" flexDirection="column" gap={2}>
-                    <TextField
-                        type="text"
-                        disabled={!isEdit}
-                        label="タイトル"
-                        value={todoContents.title}
-                        onChange={(e) => {
-                            setTodoContents({
-                                ...todoContents,
-                                title: e.target.value
-                            })
-                        }}
-                        required
-                    />
-                    <TextField
-                        type="text"
-                        disabled={!isEdit}
-                        label="説明"
-                        value={todoContents.description}
-                        onChange={(e) => {
-                            setTodoContents({
-                                ...todoContents,
-                                description: e.target.value
-                            })
-                        }}
-                        required
-                    />
-                    <Box>作成日:{format(new Date(todoContents.created_at), 'yyy/MM/dd')}</Box>
-                    <Box>更新日:{todoContents.updated_at ? format(new Date(todoContents.updated_at), 'yyy/MM/dd') : '更新なし'}</Box>
+            <Box display="flex" flexDirection="column" gap={2}>
+                <TextField
+                    type="text"
+                    disabled={!isEdit}
+                    label="タイトル"
+                    value={todoContents.title || ''}
+                    onChange={(e) =>
+                        setTodoContents(prev => prev ? { ...prev, title: e.target.value } : prev)
+                    }
+                    required
+                />
+                <TextField
+                    type="text"
+                    disabled={!isEdit}
+                    label="説明"
+                    value={todoContents.description || ''}
+                    onChange={(e) =>
+                        setTodoContents(prev => prev ? { ...prev, description: e.target.value } : prev)
+                    }
+                    required
+                />
+                <Box>作成日: {format(new Date(todoContents.created_at), 'yyyy/MM/dd')}</Box>
+                <Box>更新日: {todoContents.updated_at ? format(new Date(todoContents.updated_at), 'yyyy/MM/dd') : '更新なし'}</Box>
 
-                    <Box display="flex" justifyContent="center" sx={{ px: 4, py: 1 }}>
-                        <Button type="submit" variant="contained" disabled={!isEdit} color="info">Todoを更新</Button>
-                        <Button type="submit" variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>Todoを削除</Button>
-                        <Button href={`/todo-list`} variant="outlined" color="inherit" sx={{ ml: 2 }}>戻る</Button>
-                    </Box>
+                <Box display="flex" justifyContent="center" sx={{ px: 4, py: 1 }}>
+                    <Button onClick={handleUpdate} variant="contained" disabled={!isEdit} color="info">
+                        Todoを更新
+                    </Button>
+                    <Button onClick={handleDelete} variant="outlined" disabled={isEdit} color="inherit" sx={{ ml: 2 }}>
+                        Todoを削除
+                    </Button>
+                    <Button href="/todo-list" variant="outlined" color="inherit" sx={{ ml: 2 }}>
+                        戻る
+                    </Button>
                 </Box>
-            </form>
+            </Box>
         </>
-    )
-}
+    );
+};
 
-export default TodoDetail
+export default TodoDetail;
