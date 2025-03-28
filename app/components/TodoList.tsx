@@ -28,7 +28,7 @@ const TodoList = () => {
         <>
             {/* データを一覧表示する部分を実装 */}
             {todoListContents.length === 0 && <p>データがありません.</p>}
-            {todoListContents.map((todo: TodoListProps) => {
+            {todoListContents.map((todo: TodoListProps) => (
                 <Card key={todo.id} sx={{ m: 2 }}>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
@@ -45,7 +45,7 @@ const TodoList = () => {
                         </Button>
                     </CardActions>
                 </Card>
-            })}
+            ))}
         </>
     );
 }
