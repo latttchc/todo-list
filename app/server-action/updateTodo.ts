@@ -19,7 +19,7 @@ const updateTodo = async ({ id, title, description }: TodoUpdateProps): Promise<
     }
 
     //　データの更新処理
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from('todos')
         .update({
             title,

@@ -5,9 +5,9 @@ import { format } from "date-fns"
 import { useEffect, useState } from "react"
 import deleteTodo from "../server-action/deleteTodo"
 import updateTodo from "../server-action/updateTodo"
+import getTodo from "../server-action/getTodo"
 import { TodoDetailProps, TodoIdProps } from "../types"
 import { useRouter } from "next/navigation"
-import getTodo from "../server-action/getTodo"
 
 const TodoDetail = ({ id }: TodoIdProps) => {
     const router = useRouter();
@@ -81,7 +81,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                 }
                 label="編集"
             />
-            <form>
+            <form onSubmit={isEdit ? onUpdeteSubmit : onDeleteSubmit}>
                 <Box display="flex" flexDirection="column" gap={2}>
                     <TextField
                         type="text"
