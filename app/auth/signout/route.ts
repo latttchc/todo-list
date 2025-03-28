@@ -9,6 +9,7 @@ export const POST = async (req: NextRequest) => {
     //　supabaseからセッションを取得
     const { data: { session } } = await supabase.auth.getSession();
 
+    //　セッションがある場合はログアウト
     if (session) {
         await supabase.auth.signOut();
     }
