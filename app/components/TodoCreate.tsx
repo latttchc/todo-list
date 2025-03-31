@@ -22,7 +22,7 @@ const TodoCreate = () => {
                 router.push('/todo-list');
             }
         } catch (error) {
-            console.log('Todoの作成に失敗しました.');
+            console.error('Todoの作成に失敗しました :', error);
         }
     }
 

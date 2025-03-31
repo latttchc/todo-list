@@ -41,7 +41,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                 router.push('/todo-list');
             }
         } catch (error) {
-            console.error('更新に失敗しました.');
+            console.error('更新に失敗しました :', error);
         }
     };
 

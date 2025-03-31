@@ -3,7 +3,6 @@
 import { cookies } from "next/headers"
 import { TodoResponseProps, TodoUpdateProps } from "../types"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import { revalidatePath } from "next/cache"
 
 //　データ更新の処理
 const updateTodo = async ({ id, title, description }: TodoUpdateProps): Promise<TodoResponseProps> => {
