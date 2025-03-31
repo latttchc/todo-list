@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <Box display="flex" justifyContent="center" sx={{ mt: 5 }}>
       <Box sx={{ my: 2 }}>
-        <Typography variant="h2">Welcome to My Todo!!</Typography>
+        <Typography variant="h2">Welcome to your T0D0 L1ST</Typography>
         <Alert sx={{ my: 4 }}>
           メールアドレスを登録して利用できます。
         </Alert>
