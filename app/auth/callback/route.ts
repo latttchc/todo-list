@@ -19,3 +19,5 @@ export const GET = async (req: NextRequest) => {
     // リスト一覧へ偏移
     return NextResponse.redirect(new URL('/todo-list', req.url));
 }
+
+export const revalidate = 10;  // 10秒ごとに再検証を行う
