@@ -59,7 +59,7 @@ const TodoDetail = ({ id }: TodoIdProps) => {
                 }
             }
         } catch (error) {
-            console.error('削除に失敗しました.');
+            console.error('削除に失敗しました :', error);
         }
     };
 
