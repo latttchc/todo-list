@@ -2,12 +2,14 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  base: process.env.GITHUB_PAGES ? "https://github.com/latttchc/todo-list" : "./",
-  resolve: {
-    alias: {
+  basePath: process.env.GITHUB_PAGES ? "/todo-list" : "",
+
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
       "@": path.resolve(__dirname, "./app"),
-    },
+    };
+    return config;
   },
 };
 
