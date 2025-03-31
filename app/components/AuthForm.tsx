@@ -18,7 +18,7 @@ const AuthForm = () => {
                 view="magic_link"
                 showLinks={false}
                 providers={[]}
-                redirectTo="http://localhost:3000/auth/callback"
+                redirectTo="https://todo-list-jcqu83j0x-yuukis-projects-059da848.vercel.app"
                 appearance={{ theme: ThemeSupa }}
             />
         </Card>
