@@ -18,7 +18,7 @@ const AuthForm = () => {
                 view="magic_link"
                 showLinks={false}
                 providers={[]}
-                redirectTo="https://todo-list-gyoaa1ogp-yuukis-projects-059da848.vercel.app/"
+                redirectTo="https://todo-list-welcome.vercel.app/auth/callback"
                 appearance={{ theme: ThemeSupa }}
             />
         </Card>
