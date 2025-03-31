@@ -1,7 +1,7 @@
 import TodoDetail from "@/app/components/TodoDetail";
 
 const TodoDetailPage = async ({ params }: { params: { id: string } }) => {
-    const { id } = await params
+    const { id } = params
 
     return <TodoDetail id={Number(id)} />
 }
