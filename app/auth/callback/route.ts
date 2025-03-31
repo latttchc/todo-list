@@ -20,4 +20,4 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.redirect(new URL('/todo-list', req.url));
 }
 
-export const dynamic = "force-static";
+export const dynamic = 'auto';
